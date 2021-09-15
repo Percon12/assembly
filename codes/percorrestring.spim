@@ -1,0 +1,37 @@
+	.data
+str:	.space 20
+str1:	.asciiz "Digite uma string:"
+str2:	.asciiz "String digitada:\n"
+nl:	.asciiz "\n"
+
+	.text
+main:	
+	addi $t1, $zero, 0 # Contador = 0
+	
+	li $v0, 4 #codigo de chamada ao sistema para print_str
+	la $a0, str1 #endereço da string a imprimir
+	syscall 
+	
+	li $v0, 8 #codigo de chamada para ler string
+	la $a0, str #endereço salvo da string
+	li $a1, 20
+	syscall 
+	
+	li $v0, 4 #codigo de chamada ao sistema para print_str
+	la $a0, str2 #endereço da string a imprimir 
+	syscall
+	
+	li $v0, 4 # codigo de chamada ao sistema para print_str
+	la $a0, str # endereço da string a imprimir
+	 
+print:	
+	li $v0, 11 # codigo de chamada ao sistema para print char
+	lbu $a0, str($t1) # percorre cada elemento da string
+	syscall
+		
+	beq $a0, $zero, exit # se for igual a 0 sai do loop
+	addi $t1, $t1, 1 # contador ++
+	j print
+
+exit:	li $v0, 10
+	syscall

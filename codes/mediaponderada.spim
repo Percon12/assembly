@@ -1,0 +1,40 @@
+.data
+zerodouble: .double 0.00
+
+.text
+main:
+	l.d $f6, zerodouble #variável responsável pelo peso
+	l.d $f8, zerodouble #variável responsável pelo valor
+	
+	addi $t1, $zero, 0
+	
+	li $v0, 5 #syscall para ler inteiros no caso o numero de operadores x2 por conta do peso
+	syscall
+	move $t0, $v0
+	
+loop:
+	li $v0, 7 #syscall para ler double
+	syscall
+	mov.d $f2, $f0
+	
+	li $v0, 7 #syscall para ler double
+	syscall
+	mov.d $f4, $f0
+	
+	mul.d $f10 ,$f2, $f4 #efetuando as multiplicações
+	add.d $f6, $f6, $f2
+	add.d $f8, $f8, $f10
+	
+	addi $t1, $t1, 1 #$t1 = $t1 + 1
+	
+	bne $t1, $t0, loop #if $t1 != $f0 -> vai para loop 
+
+	
+div.d $f12, $f8, $f6 #efetuando a divisao pra obter o valor final
+
+li $v0, 3 #syscall para printar double
+syscall
+
+li $v0, 10 #syscall para finalizar o programa
+syscall
+	

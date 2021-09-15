@@ -1,0 +1,60 @@
+	.data
+#$a0/$s0 - dividendo - numero de cima
+#$a1/$s1 - divisor - numero de baixo
+#$a2/$s2 - resto
+#lo - resultado da divisao - quociente
+#hi - resto da divisao
+#$t0 -  verificador
+#$t1 - contador
+barran:    .asciiz "\n"
+
+	.text
+main:
+    li $v0, 5 # comando para ler o dividendo
+    syscall 
+    move $s0, $v0
+
+    li $v0, 5 # comando para ler o divisor
+    syscall 
+    move $s1, $v0
+
+divfac:
+    addi $t1, $zero, 0 # inicializando o contador em $t1
+
+loop:
+    slt $t0, $s0, $zero #se $s0 < 0 $t0 = 1 se não $t0 = 0
+
+    sll $s0, $s0, 1 #shift a esquerda
+    sll $s2, $s2, 1 #shift a esquerda
+	
+    bne $t0, $zero, somaum #Verifica se $t0 é 0
+    j continua
+	somaum:		
+    		addi $s2, $s2, 1 #soma $t0 ao #s2, se for 1
+	continua:
+    addi $t1, $t1, 1 # contador = contador + 1
+
+    blt  $t1, 32, loop
+
+
+#Printando o Resultado
+    li $v0, 1
+    move $a0, $s0
+    syscall
+
+    li $v0, 4
+    la $a0, barran
+    syscall
+
+#Printando o Resto
+    li $v0, 1
+    move $a0, $s2
+    syscall
+
+    li $v0, 4
+    la $a0, barran
+    syscall
+
+#finaliza o programa
+    li $v0, 10
+    syscall

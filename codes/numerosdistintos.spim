@@ -1,0 +1,35 @@
+#SUMÁRIO
+
+#$a0 - o endereço base de um vetor ordenado de inteiros v
+#$a1 - a quantidade de elementos de v
+
+
+elemDistintos:
+		move $t0, $zero #iniciando o contador de numeros diferentes $t0 com 0
+		
+		move $t2, $a0
+		
+		lw $t1, 0($a0)
+		
+		move $t3, $zero
+		
+		loop2:
+			addi $t2, $t2, 4
+
+			beq $t3, $a1, fimloop2
+
+			lw $t4, 0($t2)
+
+			addi $t3, $t3, 1
+
+			beq $t1, $t4, loop2 #é igual
+
+			#é diferente
+			addi $t0, $t0, 1
+			move $t1, $t4
+
+			b loop2
+
+		fimloop2:
+			move $v0, $t0
+			jr $ra

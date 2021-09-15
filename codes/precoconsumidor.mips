@@ -1,0 +1,37 @@
+.data
+cem: .double 100.0
+	
+.text
+main:
+	l.d $f22, cem #passando 100 para a variavel
+	
+	li $v0, 7 #syscall para ler double valor de custo de fábrica
+	syscall
+	mov.d $f2, $f0
+	
+	li $v0, 7 #syscall para ler double
+	syscall
+	mov.d $f4, $f0
+		
+	li $v0, 7 #syscall para ler double
+	syscall
+	mov.d $f6, $f0
+	
+	div.d  $f8 ,$f4, $f22 #dividindo o valor por 10 para obter a porcentagem
+
+	div.d $f10 ,$f6, $f22 #dividindo o valor por 10 para obter a porcentagem
+
+	mul.d $f14 ,$f8, $f2 #multiplicando o custo pela porcentagem obtida
+	
+	mul.d $f16 ,$f10, $f2 #multiplicando o custo pela porcentagem obtida
+	
+	add.d $f18 ,$f14, $f16 #executando a soma do valor obtido da multiplicação
+	
+	add.d $f12 ,$f2, $f18 #executando a soma do valor obtido da multiplicação
+
+li $v0, 3 #syscall para printar double
+syscall
+
+li $v0, 10 #syscall para finalizar o programa
+syscall
+	

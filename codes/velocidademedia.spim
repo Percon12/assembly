@@ -1,0 +1,22 @@
+.data
+	zero: .float 0.0
+.text
+main:	
+	li $v0, 6 # comando para ler um numero float do teclado
+	syscall 
+	add.s $f2,$f1,$f0 #coloco o numero lido em $f2
+	
+	li $v0, 6 # comando para ler um numero float do teclado
+	syscall 
+	add.s $f4,$f1,$f0 #coloco o numero lido em $f4
+	
+	lwc1 $f1,zero #colocando zero no registrafor $f1
+	
+	div.s $f6,$f2,$f4 #fazendo a divisão de 2 floats esalvando em $f6
+	
+	add.s $f12,$f1,$f6 #syscall colocando o resultado de $f6 em $f12 para o print
+	li $v0, 2 #syscall pra imprimir float
+	syscall
+	
+	li $v0, 10 #instrução para finalizar o programa
+	syscall #finaliza o programa

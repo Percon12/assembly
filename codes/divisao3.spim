@@ -1,0 +1,85 @@
+#SUMÁRIO
+
+#$a0 - dividendo - numero de cima
+#$a1 - divisor - numero de baixo
+#$a2 - resto
+#lo - resultado da divisao - quociente
+#hi - resto da divisao
+
+divfac:
+
+#Parte 1
+	comparadividendo: 
+        slt $t0, $a0, $zero
+    	bne $t0, $zero, comp2dividendo
+
+    comparadivisor:
+    	slt $t1, $a1, $zero
+    	bne $t1, $zero, comp2divisor
+    	j did
+
+    comp2dividendo:
+    	nor $a0, $a0, $zero
+    	addi $a0, $a0, 1
+    	j comparadivisor
+
+    comp2divisor:
+    	nor $a1, $a1, $zero
+    	addi $a1, $a1, 1
+    
+    did:
+        addi $t4, $zero, 32
+        move $a2, $zero
+        addi $t6, $zero, 1
+
+#Parte 2
+loop:
+        slt $t7, $a0, $zero
+        sll $a0, $a0, 1
+        sll $a2, $a2, 1
+        bne $t7, $zero, somaum
+    	j continua
+
+    somaum:
+        addi $a2, $a2, 1
+	
+    continua:
+        sub $a2, $a2, $a1
+        slt $t9, $a2, $zero
+        bne $t9, $zero, menorzero
+
+    maiorzero:
+        addi $a0, $a0, 1
+        j loopc
+
+    menorzero:
+        add $a2, $a2, $a1
+        j loopc
+    
+    loopc:
+        sub $t8, $t4, $t6
+        addi $t6, $t6, 1
+        bne $t8, $zero, loop
+        j floop
+
+#Parte 3
+    floop:
+        bne $t0, $t1, trocadividendo
+        j compararesto
+    
+    trocadividendo:
+        nor $a0, $a0, $zero
+        addi $a0, $a0, 1
+    
+    compararesto:
+        bne $t0, $zero, trocaresto
+        j exitdivfac
+
+    trocaresto:
+        nor $a2, $a2, $zero
+        addi $a2, $a2, 1
+
+    exitdivfac:
+        mtlo $a0
+        mthi $a2
+        jr $ra
